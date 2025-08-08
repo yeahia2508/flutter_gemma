@@ -49,8 +49,17 @@ class MobileInferenceModelSession extends InferenceModelSession {
 
   @override
   Future<void> addQueryChunk(Message message) async {
-        final finalPrompt = message.transformToChatPrompt(type: modelType);
-    await _platformService.addQueryChunk(finalPrompt);
+    final finalPrompt = message.transformToChatPrompt(type: modelType);
+
+    // Chunk the prompt to avoid platform channel issues with large strings
+    const chunkSize = 1024;
+    for (var i = 0; i < finalPrompt.length; i += chunkSize) {
+      final end =
+          (i + chunkSize < finalPrompt.length) ? i + chunkSize : finalPrompt.length;
+      final chunk = finalPrompt.substring(i, end);
+      await _platformService.addQueryChunk(chunk);
+    }
+
     if (message.hasImage && message.imageBytes != null && supportImage) {
       await _addImage(message.imageBytes!);
     }
