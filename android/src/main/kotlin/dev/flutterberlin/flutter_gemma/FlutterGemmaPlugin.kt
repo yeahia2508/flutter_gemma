@@ -129,6 +129,12 @@ private class PlatformServiceImpl(
     scope.launch {
       try {
         session?.addQueryChunk(prompt) ?: throw IllegalStateException("Session not created")
+        // HACK: The underlying MediaPipe addQueryChunk returns immediately, but the operation
+        // is not complete. Calling it again too quickly causes an "invocation still processing"
+        // error. There is no callback from MediaPipe to know when it's safe to proceed.
+        // A small delay is added here to mitigate this race condition, based on empirical
+        // testing and user feedback.
+        delay(50)
         callback(Result.success(Unit))
       } catch (e: Exception) {
         callback(Result.failure(e))
