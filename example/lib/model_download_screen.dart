@@ -48,17 +48,8 @@ class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
   Future<void> _downloadModel() async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
-    if (widget.model.needsAuth && _token.isEmpty) {
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(content: Text('Please set your token first.')),
-      );
-      return;
-    }
-
     try {
       await _downloadService.downloadModel(
-        token:
-            widget.model.needsAuth ? _token : '', // Pass token only if needed
         onProgress: (progress) {
           setState(() {
             _progress = progress;
@@ -105,60 +96,9 @@ class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Download ${widget.model.name} Model',
+              'Download ${widget.model.displayName} Model',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            if (widget
-                .model.needsAuth) // Show token input only if auth is required
-              TextField(
-                controller: _tokenController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Enter HuggingFace AccessToken',
-                  hintText: 'Paste your Hugging Face access token here',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.save),
-                    onPressed: () async {
-                      final token = _tokenController.text.trim();
-                      if (token.isNotEmpty) {
-                        await _saveToken(token);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Access Token saved successfully!'),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                  ),
-                ),
-              ),
-            if (widget.model.needsAuth)
-              RichText(
-                text: TextSpan(
-                  text:
-                      'To create an access token, please visit your account settings of huggingface at ',
-                  children: [
-                    TextSpan(
-                      text: 'https://huggingface.co/settings/tokens',
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          launchUrl(Uri.parse(
-                              'https://huggingface.co/settings/tokens'));
-                        },
-                    ),
-                    const TextSpan(
-                      text:
-                          '. Make sure to give read-repo access to the token.',
-                    ),
-                  ],
-                ),
-              ),
             if (widget.model.licenseUrl.isNotEmpty)
               RichText(
                 text: TextSpan(

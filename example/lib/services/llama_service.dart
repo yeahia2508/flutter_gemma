@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:llama_cpp_dart/llama_cpp_dart.dart';
 import 'package:flutter_gemma_example/models/model.dart' as app;
 

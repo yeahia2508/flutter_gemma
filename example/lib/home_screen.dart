@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             const Text(
-              'Welcome to Flutter Gemma',
+              'Welcome to Flutter LLM Example',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -34,14 +34,14 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Explore powerful AI models including Gemma 3 Nano running directly on your device',
+              'Explore powerful AI models running directly on your device with llama.cpp',
               style: TextStyle(fontSize: 16, color: Colors.white70),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
             _NavigationCard(
-              title: 'All Models',
-              subtitle: 'Browse and test all available Gemma models',
+              title: 'Start Chatting',
+              subtitle: 'Select a model and start a conversation',
               icon: Icons.model_training,
               color: Colors.blue,
               onTap: () {
