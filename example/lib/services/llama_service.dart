@@ -28,11 +28,11 @@ class LlamaService {
     final loadCommand = LlamaLoad(
       path: modelPath,
       modelParams: ModelParams(
-        // nCtx is not a valid parameter here, context size is usually
-        // part of the model itself or context parameters.
-        // We will use the default ModelParams for now.
+          // Using default model parameters for now
+          ),
+      contextParams: ContextParams(
+        nCtx: 2048, // Context size
       ),
-      contextParams: ContextParams(),
       samplingParams: SamplerParams(),
       format: model.chatFormat,
     );

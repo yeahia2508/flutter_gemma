@@ -7,7 +7,7 @@ enum Model {
         'https://huggingface.co/unsloth/gemma-3n-E2B-it-GGUF/resolve/main/gemma-3n-E2B-it-Q4_K_M.gguf?download=true',
     filename: 'gemma-3n-E2B-it-Q4_K_M.gguf',
     licenseUrl: 'https://huggingface.co/unsloth/gemma-3n-E2B-it-GGUF',
-    chatFormat: const GemmaChatFormat(),
+    chatFormat: const GeminiFormat(),
   );
 
   // Define fields for the enum
@@ -15,7 +15,7 @@ enum Model {
   final String url;
   final String filename;
   final String licenseUrl;
-  final ChatFormat chatFormat;
+  final PromptFormat chatFormat;
 
   // Constructor for the enum
   const Model({

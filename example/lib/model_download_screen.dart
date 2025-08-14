@@ -122,12 +122,12 @@ class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
                     )
                   : ElevatedButton(
                       onPressed:
-                          !needToDownload ? _deleteModel : _downloadModel,
-                      child: Text(!needToDownload ? 'Delete' : 'Download'),
+                          !_needToDownload ? _deleteModel : _downloadModel,
+                      child: Text(!_needToDownload ? 'Delete' : 'Download'),
                     ),
             ),
             const Spacer(),
-            if (!needToDownload)
+            if (!_needToDownload)
               Center(
                 child: SizedBox(
                   width: double.infinity,
