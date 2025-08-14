@@ -25,16 +25,27 @@ class LlamaService {
     //   Llama.libraryPath = 'path/to/llama.dll';
     // }
 
+    // Create the correct PromptFormat instance based on the enum type.
+    PromptFormat format;
+    switch (model.formatType) {
+      case PromptFormatType.gemini:
+        format = const GeminiFormat();
+        break;
+      // Add other cases here if more formats are supported in the future
+      default:
+        // Default to Gemini or throw an error
+        format = const GeminiFormat();
+    }
+
     final loadCommand = LlamaLoad(
       path: modelPath,
       modelParams: ModelParams(
           // Using default model parameters for now
           ),
-      contextParams: ContextParams(
-        nCtx: 2048, // Context size
-      ),
+      contextParams: ContextParams()
+        ..nCtx = 2048, // Set context size using cascade operator
       samplingParams: SamplerParams(),
-      format: model.chatFormat,
+      format: format,
     );
 
     _llamaParent = LlamaParent(loadCommand);
