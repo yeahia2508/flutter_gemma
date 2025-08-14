@@ -7,7 +7,7 @@ enum Model {
         'https://huggingface.co/unsloth/gemma-3n-E2B-it-GGUF/resolve/main/gemma-3n-E2B-it-Q4_K_M.gguf?download=true',
     filename: 'gemma-3n-E2B-it-Q4_K_M.gguf',
     licenseUrl: 'https://huggingface.co/unsloth/gemma-3n-E2B-it-GGUF',
-    chatFormat: GemmaChatFormat(),
+    chatFormat: const GemmaChatFormat(),
   );
 
   // Define fields for the enum

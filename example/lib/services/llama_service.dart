@@ -28,7 +28,9 @@ class LlamaService {
     final loadCommand = LlamaLoad(
       path: modelPath,
       modelParams: ModelParams(
-        nCtx: 2048, // Context size
+        // nCtx is not a valid parameter here, context size is usually
+        // part of the model itself or context parameters.
+        // We will use the default ModelParams for now.
       ),
       contextParams: ContextParams(),
       samplingParams: SamplerParams(),

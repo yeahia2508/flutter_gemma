@@ -1,6 +1,6 @@
-# flutter_gemma_example
+# Flutter Llama Example
 
-Demonstrates how to use the flutter_gemma plugin.
+An example app demonstrating how to use a local LLM in Flutter with the `llama_cpp_dart` plugin.
 
 ## Getting Started
 

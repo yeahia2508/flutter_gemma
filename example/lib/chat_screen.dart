@@ -51,7 +51,10 @@ class ChatScreenState extends State<ChatScreen> {
       if (!await modelDownloadService.isModelDownloaded(modelPath)) {
         // For simplicity, we're not showing download progress here.
         // The model_download_screen.dart handles that UI.
-        await modelDownloadService.downloadModel(modelPath);
+        await modelDownloadService.downloadModel(modelPath, onProgress: (p) {
+          // We can optionally update a state here to show progress,
+          // but for now we do nothing as the download screen handles this.
+        });
       }
 
       await _llamaService.init(modelPath: modelPath);

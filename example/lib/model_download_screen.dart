@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemma_example/chat_screen.dart';
 import 'package:flutter_gemma_example/services/model_download_service.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'models/model.dart';
@@ -17,39 +18,29 @@ class ModelDownloadScreen extends StatefulWidget {
 
 class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
   late ModelDownloadService _downloadService;
-  bool needToDownload = true;
-  double _progress = 0.0; // Track download progress
-  String _token = ''; // Store the token
-  final TextEditingController _tokenController = TextEditingController();
+  late String _modelPath;
+  bool _needToDownload = true;
+  double _progress = 0.0;
 
   @override
   void initState() {
     super.initState();
-    _downloadService = ModelDownloadService(
-      modelUrl: widget.model.url,
-      modelFilename: widget.model.filename,
-      licenseUrl: widget.model.licenseUrl,
-    );
+    _downloadService = ModelDownloadService(model: widget.model);
     _initialize();
   }
 
   Future<void> _initialize() async {
-    _token = await _downloadService.loadToken() ?? '';
-    _tokenController.text = _token;
-    needToDownload = !(await _downloadService.checkModelExistence(_token));
+    final documentsPath = (await getApplicationDocumentsDirectory()).path;
+    _modelPath = '$documentsPath/${widget.model.filename}';
+    _needToDownload = !(await _downloadService.isModelDownloaded(_modelPath));
     setState(() {});
-  }
-
-  Future<void> _saveToken(String token) async {
-    await _downloadService.saveToken(token);
-    await _initialize();
   }
 
   Future<void> _downloadModel() async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-
     try {
       await _downloadService.downloadModel(
+        _modelPath,
         onProgress: (progress) {
           setState(() {
             _progress = progress;
@@ -57,7 +48,7 @@ class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
         },
       );
       setState(() {
-        needToDownload = false;
+        _needToDownload = false;
       });
     } catch (e) {
       scaffoldMessenger.showSnackBar(
@@ -73,9 +64,9 @@ class _ModelDownloadScreenState extends State<ModelDownloadScreen> {
   }
 
   Future<void> _deleteModel() async {
-    await _downloadService.deleteModel();
+    await _downloadService.deleteModel(_modelPath);
     setState(() {
-      needToDownload = true;
+      _needToDownload = true;
     });
   }
 

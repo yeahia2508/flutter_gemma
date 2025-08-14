@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemma_example/chat_screen.dart';
 import 'package:flutter_gemma_example/model_download_screen.dart';
 import 'package:flutter_gemma_example/models/model.dart';
 
